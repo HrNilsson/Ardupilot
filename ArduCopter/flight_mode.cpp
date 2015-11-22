@@ -95,6 +95,14 @@ bool Copter::set_mode(uint8_t mode)
             success = brake_init(ignore_checks);
             break;
 
+        case PID_TEST:
+            success = PID_test_init(ignore_checks);
+            break;
+
+        case MPC_TEST:
+            success = MPC_test_init(ignore_checks);
+            break;
+
         default:
             success = false;
             break;
@@ -205,6 +213,14 @@ void Copter::update_flight_mode()
 
         case BRAKE:
             brake_run();
+            break;
+
+        case PID_TEST:
+            PID_test_run();
+            break;
+
+        case MPC_TEST:
+            MPC_test_run();
             break;
     }
 }

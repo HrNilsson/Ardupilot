@@ -6,6 +6,7 @@
 #define THISFIRMWARE "APM:Copter V3.4-dev"
 #define FIRMWARE_VERSION 3,4,0,FIRMWARE_VERSION_TYPE_DEV
 
+
 /*
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -123,6 +124,7 @@ class Copter : public AP_HAL::HAL::Callbacks {
 public:
     friend class GCS_MAVLINK;
     friend class Parameters;
+    friend class AC_AttitudeControl;
 
     Copter(void);
 
@@ -516,6 +518,19 @@ private:
     // setup the var_info table
     AP_Param param_loader;
 
+    // Orientation type
+    struct orientation
+    {
+        float targetRoll;
+        float targetPitch;
+    };
+
+    orientation test_sequence [17];
+
+    uint8_t test_iterator;
+    uint16_t time_passed;
+
+
 #if FRAME_CONFIG == HELI_FRAME
     // Mode filter to reject RC Input glitches.  Filter size is 5, and it draws the 4th element, so it can reject 3 low glitches,
     // and 1 high glitch.  This is because any "off" glitches can be highly problematic for a helicopter running an ESC
@@ -788,6 +803,14 @@ private:
     void sport_run();
     bool stabilize_init(bool ignore_checks);
     void stabilize_run();
+
+    bool PID_test_init(bool ignore_checks);
+    void PID_test_run();
+    bool MPC_test_init(bool ignore_checks);
+    void MPC_test_run();
+
+
+    void advance_test();
     void crash_check();
     void parachute_check();
     void parachute_release();
