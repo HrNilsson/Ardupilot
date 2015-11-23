@@ -3,12 +3,10 @@
 #include "Copter.h"
 #include <AP_HAL/AP_HAL.h>
 #include <AP_HAL/AP_HAL_Namespace.h>
-#include <AP_math/MMath.h>
-#include <AP_math/midaco.h>
+//#include <AP_math/MMath.h>
+//#include <AP_math/midaco.h>
+#include "MPC.h"
 
-/*
- * control_stabilize.pde - init and run calls for stabilize flight mode
- */
 
 
 // stabilize_init - initialise stabilize controller
@@ -41,9 +39,8 @@ bool Copter::MPC_test_init(bool ignore_checks)
 
     // Register the advance test function to be called on a timer interrupt from the HAL
     hal.scheduler->register_timer_process(FUNCTOR_BIND_MEMBER(&Copter::advance_test, void));
-    //hal.scheduler->register_timer_process(FUNCTOR_BIND_MEMBER(&AP_Baro_MS56XX::_timer, void));
 
-    midacoTest();
+   // midacoTest();
 
     // stabilize should never be made to fail
     return true;

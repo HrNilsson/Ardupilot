@@ -4,7 +4,7 @@
 
 
 
-void Madd(float **A, float **B, size_t r, size_t c, float **res)
+void Madd(double **A, double **B, size_t r, size_t c, double **res)
 {
     for(int i=0; i<(int)r; ++i)
     for(int j=0; j<(int)c; ++j)
@@ -13,7 +13,13 @@ void Madd(float **A, float **B, size_t r, size_t c, float **res)
     }
 }
 
-void Msubtract(float **A, float **B, size_t r, size_t c, float **res)
+void Madd(double *A, double *B, size_t l, double *res)
+{
+	for (int i = 0; i<(int)l; ++i)
+		res[i] = A[i] + B[i];
+}
+
+void Msubtract(double **A, double **B, size_t r, size_t c, double **res)
 {
 	for (int i = 0; i<(int)r; ++i)
 	for (int j = 0; j<(int)c; ++j)
@@ -22,7 +28,7 @@ void Msubtract(float **A, float **B, size_t r, size_t c, float **res)
 	}
 }
 
-void Mmultiply(float **A, float **B, size_t rA, size_t cA, size_t rB, size_t cB, float **res)
+void Mmultiply(double **A, double **B, size_t rA, size_t cA, size_t rB, size_t cB, double **res)
 {
     for(int i=0; i<(int)rA; ++i) // For every row in the lhs matrix
     for(int j=0; j<(int)cB; ++j) // For every column in the rhs matrix
@@ -32,14 +38,14 @@ void Mmultiply(float **A, float **B, size_t rA, size_t cA, size_t rB, size_t cB,
     }
 }
 
-void MmultiplyScalar(float **A, size_t r, size_t c, float s, float **res)
+void MmultiplyScalar(double **A, size_t r, size_t c, double s, double **res)
 {
     for(int i = 0; i<(int)r; ++i)
     for(int j = 0; j<(int)c; ++j)
         res[i][j] = s*A[i][j];
 }
 
-void Mtranspose(float **A, size_t r, size_t c, float **res)
+void Mtranspose(double **A, size_t r, size_t c, double **res)
 {
     for(int i = 0; i<(int)c; ++i)
     for(int j = 0; j<(int)r; ++j)
@@ -112,30 +118,41 @@ float** ptrAlloc(size_t rows, size_t cols)
 	return p;
 }
 
-float** ptrAlloc(size_t rows, size_t cols, float ar[][2])
+
+double** ptrAlloc(size_t rows, size_t cols, double ar[][1])
 {
-	float **p;
-	p = new float *[rows];
+	double **p;
+	p = new double *[rows];
 	for (int i = 0; i<(int)rows; ++i)
 		p[i] = ar[i];
 
 	return p;
 }
 
-float** ptrAlloc(size_t rows, size_t cols, float ar[][3])
+double** ptrAlloc(size_t rows, size_t cols, double ar[][2])
 {
-	float **p;
-	p = new float *[rows];
+	double **p;
+	p = new double *[rows];
 	for (int i = 0; i<(int)rows; ++i)
 		p[i] = ar[i];
 
 	return p;
 }
 
-float** ptrAlloc(size_t rows, size_t cols, float ar[][4])
+double** ptrAlloc(size_t rows, size_t cols, double ar[][3])
 {
-	float **p;
-	p = new float *[rows];
+	double **p;
+	p = new double *[rows];
+	for (int i = 0; i<(int)rows; ++i)
+		p[i] = ar[i];
+
+	return p;
+}
+
+double** ptrAlloc(size_t rows, size_t cols, double ar[][4])
+{
+	double **p;
+	p = new double *[rows];
 	for (int i = 0; i<(int)rows; ++i)
 		p[i] = ar[i];
 
@@ -143,22 +160,44 @@ float** ptrAlloc(size_t rows, size_t cols, float ar[][4])
 }
 
 
-float** ptrAlloc(size_t rows, size_t cols, float ar[][5])
+double** ptrAlloc(size_t rows, size_t cols, double ar[][5])
 {
-	float **p;
-	p = new float *[rows];
+	double **p;
+	p = new double *[rows];
 	for (int i = 0; i<(int)rows; ++i)
 		p[i] = ar[i];
 
 	return p;
 }
 
-float** ptrAlloc(size_t rows, size_t cols, float ar[][50])
+double** ptrAlloc(size_t rows, size_t cols, double ar[][6])
 {
-	float **p;
-	p = new float *[rows];
+	double **p;
+	p = new double *[rows];
 	for (int i = 0; i<(int)rows; ++i)
 		p[i] = ar[i];
 
 	return p;
 }
+
+double** ptrAlloc(size_t rows, size_t cols, double ar[][50])
+{
+	double **p;
+	p = new double *[rows];
+	for (int i = 0; i<(int)rows; ++i)
+		p[i] = ar[i];
+
+	return p;
+}
+
+double** ptrAlloc(size_t rows, size_t cols, double ar[][90])
+{
+	double **p;
+	p = new double *[rows];
+	for (int i = 0; i<(int)rows; ++i)
+		p[i] = ar[i];
+
+	return p;
+}
+
+
