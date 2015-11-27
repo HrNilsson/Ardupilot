@@ -504,6 +504,7 @@ struct PACKED log_Radio {
     uint16_t fixed;
 };
 
+
 struct PACKED log_Camera {
     LOG_PACKET_HEADER;
     uint64_t time_us;

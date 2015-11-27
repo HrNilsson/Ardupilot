@@ -85,6 +85,7 @@ void Copter::PID_test_run()
     attitude_control.set_throttle_out(pilot_throttle_scaled, true, g.throttle_filt);
 }
 
+// CHANGE NUMBERS FOR MPC
 void Copter::advance_test() // This function is called with a frequency of 1 kHz
 {
     time_passed ++;

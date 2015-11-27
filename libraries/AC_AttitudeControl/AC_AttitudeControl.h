@@ -298,7 +298,7 @@ protected:
     Vector3f            _rate_ef_desired;       // earth-frame feed forward rates
     Vector3f            _rate_bf_desired;       // body-frame feed forward rates
     int16_t             _angle_boost;           // used only for logging
-    int16_t             _acro_angle_switch;           // used only for logging
+    int16_t             _acro_angle_switch;     // used only for logging
 
     // throttle based angle limits
     LowPassFilterFloat  _throttle_in_filt;      // throttle input from pilot or alt hold controller

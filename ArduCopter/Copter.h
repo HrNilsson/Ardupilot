@@ -66,6 +66,7 @@
 #include <AC_AttitudeControl/AC_AttitudeControl_Multi.h> // Attitude control library
 #include <AC_AttitudeControl/AC_AttitudeControl_Heli.h> // Attitude control library for traditional helicopter
 #include <AC_AttitudeControl/AC_PosControl.h>      // Position control library
+#include "MPC.h"
 #include <RC_Channel/RC_Channel.h>         // RC Channel Library
 #include <AP_Motors/AP_Motors.h>          // AP Motors library
 #include <AP_RangeFinder/AP_RangeFinder.h>     // Range finder library
@@ -430,6 +431,7 @@ private:
     AC_AttitudeControl_Heli attitude_control;
 #else
     AC_AttitudeControl_Multi attitude_control;
+    MPC::AC_AttitudeControl_MPC attitude_control_mpc;
 #endif
     AC_PosControl pos_control;
     AC_WPNav wp_nav;
@@ -531,6 +533,10 @@ private:
     uint16_t time_passed;
 
 
+    float fvalue1, fvalue2, fvalue3, xvalue1, xvalue2, xvalue3;
+    uint32_t start, matriceTime, solveTime;
+
+
 #if FRAME_CONFIG == HELI_FRAME
     // Mode filter to reject RC Input glitches.  Filter size is 5, and it draws the 4th element, so it can reject 3 low glitches,
     // and 1 high glitch.  This is because any "off" glitches can be highly problematic for a helicopter running an ESC
@@ -630,8 +636,8 @@ private:
     void Log_Write_AutoTuneDetails(float angle_cd, float rate_cds);
     void Log_Write_Current();
     void Log_Write_Optflow();
-    void Log_Write_Nav_Tuning();
-    void Log_Write_Control_Tuning();
+    void Log_Write_Nav_Tuning(float f1, float f2, float f3, float x1, float x2, float x3, uint32_t t1, uint32_t t2, uint32_t t3);
+    void Log_Write_Control_Tuning(float f1, float f2, float f3, int32_t t);
     void Log_Write_Performance();
     void Log_Write_Attitude();
     void Log_Write_Rate();
@@ -808,6 +814,7 @@ private:
     void PID_test_run();
     bool MPC_test_init(bool ignore_checks);
     void MPC_test_run();
+    void MPC_iteration();
 
 
     void advance_test();

@@ -181,22 +181,43 @@ typedef doublereal E_f;
 #define near neard
 #endif
 
+static long int g_iw[1000];
+static double g_xl[3], g_xu[3], g_g[1], g_rw[1000], g_param[9], g_Fobj[1], g_K[3];
+static double g_x[3];
 
+static long int g_p,g_n,g_ni,g_m,g_me,g_iflag,g_istop,g_liw,g_lrw,g_maxeval,g_printeval,g_save2file,g_maxtime; //
+
+/* Specify MIDACO License-Key */
+static char g_key[] = "MIDACO_LIMITED_VERSION___[CREATIVE_COMMONS_BY-NC-ND_LICENSE]";
 
 static integer c__10 = 10;
 static integer c__3 = 3;
 static integer c__2 = 2;
+
+void midaco_init();
+
+void problem_function( double *F, double *X, double *K, double *f);
+
+void optimize(double *);
 
 int midaco(integer *p, integer *n, integer *ni, integer *m,
   integer *me, doublereal *x, doublereal *f, doublereal *g, doublereal *
   xl, doublereal *xu, integer *iflag, integer *istop, doublereal *param,
    doublereal *rw, integer *lrw, integer *iw, integer *liw, char *key);
 
+int midaco_print(int,long int,long int,long int*,long int*,double*,double*,
+               double*,double*,double*,long int,long int,long int,long int,
+             double*,long int,long int,double*,long int,char*);
+
+
+double getgx1();
+double getgx2();
+double getgx3();
 
 }
-using namespace Midaco;
+//using namespace Midaco;
 
-void midacoTest();
+//void midacoTest();
 //integer pow_ii(integer *ap, integer *bp);
 
 

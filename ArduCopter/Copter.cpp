@@ -87,6 +87,7 @@ Copter::Copter(void) :
 #else
     attitude_control(ahrs, aparm, motors, g.p_stabilize_roll, g.p_stabilize_pitch, g.p_stabilize_yaw,
                      g.pid_rate_roll, g.pid_rate_pitch, g.pid_rate_yaw),
+    attitude_control_mpc(ahrs, motors),
 #endif
     pos_control(ahrs, inertial_nav, motors, attitude_control,
                 g.p_alt_hold, g.p_vel_z, g.pid_accel_z,

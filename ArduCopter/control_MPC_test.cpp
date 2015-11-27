@@ -3,9 +3,8 @@
 #include "Copter.h"
 #include <AP_HAL/AP_HAL.h>
 #include <AP_HAL/AP_HAL_Namespace.h>
-//#include <AP_math/MMath.h>
-//#include <AP_math/midaco.h>
 #include "MPC.h"
+
 
 
 
@@ -40,7 +39,9 @@ bool Copter::MPC_test_init(bool ignore_checks)
     // Register the advance test function to be called on a timer interrupt from the HAL
     hal.scheduler->register_timer_process(FUNCTOR_BIND_MEMBER(&Copter::advance_test, void));
 
-   // midacoTest();
+
+    //attitude_control_mpc.initMPC();
+
 
     // stabilize should never be made to fail
     return true;
@@ -51,7 +52,7 @@ bool Copter::MPC_test_init(bool ignore_checks)
 // should be called at 100hz or more
 void Copter::MPC_test_run()
 {
-    //float target_roll, target_pitch;
+    float target_roll, target_pitch;
     float target_yaw_rate = 0;
     int16_t pilot_throttle_scaled;
 
@@ -70,7 +71,7 @@ void Copter::MPC_test_run()
 
     // convert pilot input to lean angles
     // To-Do: convert get_pilot_desired_lean_angles to return angles as floats
-    //get_pilot_desired_lean_angles(channel_roll->control_in, channel_pitch->control_in, target_roll, target_pitch, aparm.angle_max);
+    get_pilot_desired_lean_angles(channel_roll->control_in, channel_pitch->control_in, target_roll, target_pitch, aparm.angle_max);
 
     // get pilot's desired yaw rate
     //target_yaw_rate = get_pilot_desired_yaw_rate(channel_yaw->control_in);
@@ -78,11 +79,32 @@ void Copter::MPC_test_run()
     // get pilot's desired throttle
     pilot_throttle_scaled = get_pilot_desired_throttle(channel_throttle->control_in);
 
+
+    //attitude_control_mpc.updateState();
+    //attitude_control_mpc.updateMatrices(target_roll, target_pitch, target_yaw_rate);
+    //attitude_control_mpc.solve();
+    //attitude_control_mpc.outputToMotor();
+
     // call attitude controller
-    attitude_control.angle_ef_roll_pitch_rate_ef_yaw_smooth(test_sequence[test_iterator].targetRoll, test_sequence[test_iterator].targetPitch, target_yaw_rate, get_smoothing_gain());
+    //attitude_control.angle_ef_roll_pitch_rate_ef_yaw_smooth(test_sequence[test_iterator].targetRoll, test_sequence[test_iterator].targetPitch, target_yaw_rate, get_smoothing_gain());
 
     // body-frame rate controller is run directly from 100hz loop
 
     // output pilot's throttle
     attitude_control.set_throttle_out(pilot_throttle_scaled, true, g.throttle_filt);
 }
+
+
+void Copter::MPC_iteration()
+{
+    //
+    //MPC::updateState();
+    //MPC::updateMatrices(1,1,1);
+    //MPC::solve();
+    //MPC::getValues();
+}
+
+
+
+
+

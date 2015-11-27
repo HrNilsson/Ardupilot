@@ -257,34 +257,34 @@ struct PACKED log_Nav_Tuning {
     float    pos_y;
     float    desired_vel_x;
     float    desired_vel_y;
-    float    vel_x;
-    float    vel_y;
-    float    desired_accel_x;
+    uint32_t    vel_x;
+    uint32_t    vel_y;
+    uint32_t    desired_accel_x;
     float    desired_accel_y;
 };
 
 // Write an Nav Tuning packet
-void Copter::Log_Write_Nav_Tuning()
+void Copter::Log_Write_Nav_Tuning(float f1, float f2, float f3, float x1, float x2, float x3, uint32_t t1, uint32_t t2, uint32_t t3)
 {
-    const Vector3f &pos_target = pos_control.get_pos_target();
+   /* const Vector3f &pos_target = pos_control.get_pos_target();
     const Vector3f &vel_target = pos_control.get_vel_target();
     const Vector3f &accel_target = pos_control.get_accel_target();
     const Vector3f &position = inertial_nav.get_position();
-    const Vector3f &velocity = inertial_nav.get_velocity();
+    const Vector3f &velocity = inertial_nav.get_velocity();*/
 
     struct log_Nav_Tuning pkt = {
         LOG_PACKET_HEADER_INIT(LOG_NAV_TUNING_MSG),
         time_us         : hal.scheduler->micros64(),
-        desired_pos_x   : pos_target.x,
-        desired_pos_y   : pos_target.y,
-        pos_x           : position.x,
-        pos_y           : position.y,
-        desired_vel_x   : vel_target.x,
-        desired_vel_y   : vel_target.y,
-        vel_x           : velocity.x,
-        vel_y           : velocity.y,
-        desired_accel_x : accel_target.x,
-        desired_accel_y : accel_target.y
+        desired_pos_x   : f1, //pos_target.x,
+        desired_pos_y   : f2, //pos_target.y,
+        pos_x           : f3, //position.x,
+        pos_y           : x1, //position.y,
+        desired_vel_x   : x2, //vel_target.x,
+        desired_vel_y   : x3, //vel_target.y,
+        vel_x           : t1, //velocity.x,
+        vel_y           : t2, //velocity.y,
+        desired_accel_x : t3, //accel_target.x,
+        desired_accel_y : 0, //accel_target.y
     };
     DataFlash.WriteBlock(&pkt, sizeof(pkt));
 }
@@ -305,17 +305,17 @@ struct PACKED log_Control_Tuning {
 };
 
 // Write a control tuning packet
-void Copter::Log_Write_Control_Tuning()
+void Copter::Log_Write_Control_Tuning(float f1, float f2, float f3, int32_t t)
 {
     struct log_Control_Tuning pkt = {
         LOG_PACKET_HEADER_INIT(LOG_CONTROL_TUNING_MSG),
         time_us             : hal.scheduler->micros64(),
         throttle_in         : channel_throttle->control_in,
         angle_boost         : attitude_control.angle_boost(),
-        throttle_out        : motors.get_throttle(),
-        desired_alt         : pos_control.get_alt_target() / 100.0f,
-        inav_alt            : inertial_nav.get_altitude() / 100.0f,
-        baro_alt            : baro_alt,
+        throttle_out        : f1, //9999, //motors.get_throttle(),
+        desired_alt         : f2, //8888, //pos_control.get_alt_target() / 100.0f,
+        inav_alt            : f3, //7777, //inertial_nav.get_altitude() / 100.0f,
+        baro_alt            : t, //baro_alt,
         desired_sonar_alt   : (int16_t)target_sonar_alt,
         sonar_alt           : sonar_alt,
         desired_climb_rate  : (int16_t)pos_control.get_vel_target_z(),
@@ -732,7 +732,7 @@ const struct LogStructure Copter::log_structure[] = {
     { LOG_OPTFLOW_MSG, sizeof(log_Optflow),       
       "OF",   "QBffff",   "TimeUS,Qual,flowX,flowY,bodyX,bodyY" },
     { LOG_NAV_TUNING_MSG, sizeof(log_Nav_Tuning),       
-      "NTUN", "Qffffffffff", "TimeUS,DPosX,DPosY,PosX,PosY,DVelX,DVelY,VelX,VelY,DAccX,DAccY" },
+      "NTUN", "QffffffIIIf", "TimeUS,DPosX,DPosY,PosX,PosY,DVelX,DVelY,VelX,VelY,DAccX,DAccY" },
     { LOG_CONTROL_TUNING_MSG, sizeof(log_Control_Tuning),
       "CTUN", "Qhhfffecchh", "TimeUS,ThrIn,AngBst,ThrOut,DAlt,Alt,BarAlt,DSAlt,SAlt,DCRt,CRt" },
     { LOG_PERFORMANCE_MSG, sizeof(log_Performance), 

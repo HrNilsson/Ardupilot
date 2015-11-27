@@ -37,8 +37,5 @@ double** ptrAlloc(size_t rows, size_t cols, double ar[][5]);
 double** ptrAlloc(size_t rows, size_t cols, double ar[][6]);
 double** ptrAlloc(size_t rows, size_t cols, double ar[][50]);
 double** ptrAlloc(size_t rows, size_t cols, double ar[][90]);
-//float** ptrAlloc(size_t rows, size_t cols, float ar[3][3]);
-//float** ptrAlloc(size_t rows, size_t cols, float ar[3][3]);
-//float** ptrAlloc(size_t rows, size_t cols, float ar[3][3]);
 
 #endif // MMATH_H

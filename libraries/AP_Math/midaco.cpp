@@ -308,6 +308,104 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC*/
 namespace Midaco
 {
 
+    //double g_x[3];
+
+void midaco_init()
+{
+    /*  STEP 1.A: Define problem dimensions  */
+    /*  ***********************************  */
+        g_n  = 3; /* Number of variables (in total) */
+        g_ni = 0; /* Number of integer variables (0 <= ni <= n) */
+        g_m  = 0; /* Number of constraints (in total) */
+        g_me = 0; /* Number of equality constraints (0 <= me <= m) */
+
+    /*  STEP 1.B: Define lower and upper bounds 'xl' & 'xu'  */
+    /*  ***************************************************  */
+
+        g_xl[0] = -3.33;
+        g_xl[1] = -3.33;
+        g_xl[2] = -0.15;
+        g_xu[0] = 3.33;
+        g_xu[1] = 3.33;
+        g_xu[2] = 0.15;
+
+    /*  STEP 1.D: Define values for constant'K'  */
+    /*  ***********************************  */
+        g_K[0] = 102;
+        g_K[1] = 102;
+        g_K[2] = 512;
+
+        g_maxeval = 120;     /* Maximum number of function evaluation (e.g. 1000000) */
+        g_maxtime = 1;  /* Maximum time limit in Seconds (e.g. 1 Day = 60*60*24) */
+
+        g_param[0] =  0.0;   /*  ACCURACY      (default value is 0.001)      */
+        g_param[1] =  0.0;   /*  RANDOM-SEED   (e.g. 1, 2, 3,... 1000)       */
+        g_param[2] =  0.0;   /*  FSTOP                                       */
+        g_param[3] =  0.0;   /*  AUTOSTOP      (e.g. 1, 5, 20, 100,... 500)  */
+        g_param[4] =  0.0;   /*  ORACLE                                      */
+        g_param[5] =  0.0;   /*  FOCUS         (e.g. +/- 10, 500,... 100000) */
+        g_param[6] =  0.0;   /*  ANTS          (e.g. 2, 10, 50, 100,... 500) */
+        g_param[7] =  0.0;   /*  KERNEL        (e.g. 2, 5, 15, 30,... 100)   */
+        g_param[8] =  0.0;   /*  CHARACTER                                   */
+}
+
+double getgx1()
+{
+    return g_x[0];
+}
+
+double getgx2()
+{
+    return g_x[1];
+}
+
+double getgx3()
+{
+    return g_x[2];
+}
+
+
+void optimize(double *f)
+{
+    //g_x[0] += 0.1;
+    //g_x[1] = 0.2;
+    //g_x[2] += 0.1;
+
+    /* Workspace declarations */
+    g_p=1;
+    g_lrw=sizeof(g_rw)/sizeof(double);
+    g_liw=sizeof(g_iw)/sizeof(long int);
+
+    midaco_print(1,g_printeval,g_save2file,&g_iflag,&g_istop,&*g_Fobj,&*g_g,&*g_x,&*g_xl,&*g_xu,
+                    g_n,g_ni,g_m,g_me,&*g_rw,g_maxeval,g_maxtime,&*g_param,1,&*g_key);
+
+    while(g_istop==0) /*~~~ Start of the reverse communication loop ~~~*/
+    {   /* Evaluate objective function */
+        problem_function(&*g_Fobj, &*g_x, &*g_K, &*f);
+        /* Call MIDACO */
+        midaco(&g_p,&g_n,&g_ni,&g_m,&g_me,&*g_x,&*g_Fobj,&*g_g,&*g_xl,&*g_xu,&g_iflag,
+               &g_istop,&*g_param,&*g_rw,&g_lrw,&*g_iw,&g_liw,&*g_key);
+
+        midaco_print(2,g_printeval,g_save2file,&g_iflag,&g_istop,&*g_Fobj,&*g_g,&*g_x,&*g_xl,&*g_xu,
+                g_n,g_ni,g_m,g_me,&*g_rw,g_maxeval,g_maxtime,&*g_param,1,&*g_key);
+    } /*~~~End of the reverse communication loop ~~~*/
+
+
+
+/*  *******************************************************************************/
+    /* Independent check of MIDACO solution */
+    problem_function(&*g_Fobj, &*g_x, &*g_K, &*f);
+}
+
+void problem_function(double *fp, double *xp, double *K, double *f)
+{
+    fp[0] = 0.5 * (xp[0] * (K[0] * xp[0])
+        + xp[1] * (K[1] * xp[1])
+        + xp[2] * (K[2] * xp[2]))
+        + f[0] * xp[0]
+        + f[1] * xp[1]
+        + f[2] * xp[2];
+}
 
 int midaco(integer *p, integer *n, integer *ni, integer *m,
   integer *me, doublereal *x, doublereal *f, doublereal *g, doublereal *
@@ -2978,210 +3076,45 @@ int print_final(long int iflag, double tnow, double tmax, long int eval, long in
                 double *xl, double *xu, double *rw, double acc, long int wres, double *param,
     FILE *iout);
 /*CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
-C     This subroutine handles all printing commands for MIDACO.
-C     Note that this subroutine is called independently from MIDACO and
-C     MIDACO itself does not include any print commands (due to
-C     compiler portability and robustness).
-CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC*/
-int midaco_print(int c, long int printeval, long int save2file, long int *iflag, long int *istop,
-                double *f, double *g, double *x, double *xl, double *xu, long int n, long int ni,
-                long int m, long int me, double *rw, long int maxeval, long int maxtime,
-                double *param, long int P, char *key)
-{
-  int i;
-
-  static double tstart, tnow, tmax;
-  static long int eval;
-
-  static double acc;
-  static int tic;
-  static long int kmax;
-  static int q;
-
-  static int kx;
-  static int kf;
-  static int kg;
-  static int kres;
-
-  static int wx;
-  static int wf;
-  static int wg;
-  static int wres;
-
-  static int kbest;
-  static int wbest;
-
-  static double bestf[1];
-  static double bestr[1];
-  static double bestg[1000]; /* Increase size, if problems with N > 1000 are solved */
-  static double bestx[1000]; /* Increase size, if problems with N > 1000 are solved */
-
-  static int update;
-
-  static double dummy_f, dummy_vio;
-
-  static FILE* iout;
-  static FILE* iout1;
-  static FILE* iout2;
-  if(c == 2)
-  {
-    tnow = gettime()-tstart;
-    eval = eval + P;
-    if(*iflag >= 10)
+    C     This subroutine handles all printing commands for MIDACO.
+    C     Note that this subroutine is called independently from MIDACO and
+    C     MIDACO itself does not include any print commands (due to
+    C     compiler portability and robustness).
+    CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC*/
+    int midaco_print(int c, long int printeval, long int save2file, long int *iflag, long int *istop,
+        double *f, double *g, double *x, double *xl, double *xu, long int n, long int ni,
+        long int m, long int me, double *rw, long int maxeval, long int maxtime,
+        double *param, long int P, char *key)
     {
-      warnings_and_erros( iflag, &*iout);
-      if(save2file > 0)
-      {
-        warnings_and_erros( iflag, &*iout1);
-        warnings_and_erros( iflag, &*iout2);
-      }
-    }
-    if(printeval > 0)
-    {
-        tic = tic + P;
-        if((tic >= printeval)||(eval == P)||(*iflag >= 1))
+        static double tstart, tnow, tmax;
+        static long int eval;
+
+        if (c == 2)
         {
-           if(eval > P){ tic = 0; }
-           if(rw[kres] == rw[wres]){
-             kbest = kf;
-             wbest = wf;
-           }else{
-             kbest = kres;
-             wbest = wres;
-           }
-           if((rw[wbest] < rw[kbest]) ||
-              (*iflag >= 1)||(*iflag == -300)){
+            tnow = gettime() - tstart;
+            eval = eval + P;
 
-                 bestf[0] = rw[wf];
-                 bestr[0] = rw[wres];
-                 for(i=0;i<m;i++){  bestg[i] = rw[wg+i]; }
-                 for(i=0;i<n;i++){  bestx[i] = rw[wx+i]; }
-           }
-           else
-           {
-                 bestf[0] = rw[kf];
-                 bestr[0] = rw[kres];
-                 for(i=0;i<m;i++){  bestg[i] = rw[kg+i]; }
-                 for(i=0;i<n;i++){  bestx[i] = rw[kx+i]; }
-           }
-
-           print_line( eval, tnow, bestf[0], bestr[0], &*iout);
-           if(save2file > 0)
-           {
-              print_line( eval, tnow, bestf[0], bestr[0], &*iout1);
-           }
-           if(save2file > 0)
-           {
-               update = 0;
-
-               if( (bestr[0]  < dummy_vio)||
-                  ((bestr[0] == dummy_vio)&&(bestf[0] < dummy_f)) )
-                  {
-                    dummy_f = bestf[0];
-                    dummy_vio = bestr[0];
-                    update = 1;
-                  }
-
-               if( update > 0 )
-               {
-                 fprintf(iout2,"\n\n            CURRENT BEST SOLUTION");
-
-                 print_solution( n, m, me, &*bestx, &*bestg,
-                                 &*bestf, &*bestr, &*xl, &*xu, acc,
-                                 eval, tnow, *iflag, &*iout2);
-               }
-              force_output( &*iout1 );
-              force_output( &*iout2 );
-           }
+            if (*istop == 0)
+            {
+                if (tnow >= tmax) { *iflag = -999; }
+                if (eval >= maxeval - 1)
+                {
+                    if (maxeval <= 99999999) { *iflag = -999; }
+                }
+            }
+            return 0;
         }
-    }
-    if(*istop == 0)
-    {
-        if(tnow >= tmax)     { *iflag = -999;}
-        if(eval >= maxeval-1)
-    {
-     if(maxeval <= 99999999){ *iflag = -999;}
-    }
-    }
-  return 0;
-  }
-  if(c == 1)
-  {
-    *iflag = 0;
-    *istop = 0;
-    tmax = (double) maxtime;
-    tstart = gettime();
-    eval   = 0;
-    if(param[0] <= 0.0)
-    {
-      acc = 0.001;
-    }else{
-      acc = param[0];
-    }
-    kmax = 100;
-    q    = 2*n+m+(n+5)*kmax+8;
-    kx   = 1;
-    kf   = 1+n;
-    kg   = 1+n+1;
-    kres = 1+n+1+m;
-    wx   = q;
-    wf   = q+n;
-    wg   = q+n+1;
-    wres = q+n+1+m;
-    iout = stdout;
-    if(save2file > 0)
-    {
-      iout1 = fopen("MIDACO_SCREEN.TXT","w");
-      iout2 = fopen("MIDACO_SOLUTION.TXT","w"); 
-    }
-    bestf[0] = 1.0e+32;
-    bestr[0] = 1.0e+32;
-    dummy_f   = 1.0e+32;
-    dummy_vio = 1.0e+32;
-    tic = 0;
-    if(printeval >= 1)
-    {
-        print_head(n,ni,m,me,&*param,maxeval,maxtime,
-                   printeval,save2file,&*key,&*iout);
-
-        if(save2file > 0)
+        if (c == 1)
         {
-            print_head(n,ni,m,me,&*param,maxeval,maxtime,
-                       printeval,save2file,&*key,&*iout1);
+            *iflag = 0;
+            *istop = 0;
+            tmax = (double)maxtime;
+            tstart = gettime();
+            eval = 0;
         }
-     }
-     if(save2file > 0)
-     {
-         fprintf(iout2," MIDACO - SOLUTION\n");
-         fprintf(iout2," -----------------\n");
-         fprintf(iout2,"\n This file saves the current best solution X found by MIDACO.");
-         fprintf(iout2,"\n This file is updated after every PRINTEVAL function evaluation,");
-         fprintf(iout2,"\n if X has been improved.\n\n");
-     }
-     if(save2file > 0)
-     {
-       force_output( &*iout1 );
-       force_output( &*iout2 );
-     }
-  }
-  if((c == 3)&&(printeval > 0))
-  {
- print_final(*iflag,tnow,tmax,eval,maxeval,n,m,me,&*x,&*g,&*f,
-    &*xl,&*xu,&*rw,acc,wres,param,&*iout);
- if(save2file > 0)
- {
-   print_final(*iflag,tnow,tmax,eval,maxeval,n,m,me,&*x,&*g,&*f,
-      &*xl,&*xu,&*rw,acc,wres,param,&*iout1);
-   print_final(*iflag,tnow,tmax,eval,maxeval,n,m,me,&*x,&*g,&*f,
-      &*xl,&*xu,&*rw,acc,wres,param,&*iout2);
-   force_output( &*iout1 );
-   force_output( &*iout2 );
-   fclose( iout1 );
-   fclose( iout2 );
- }
-  }
-  return 0;
-}
+        return 0;
+    }
+
 int print_head(long int n, long int ni, long int m, long int me, double *param,
                long int maxeval, long int maxtime, long int printeval,
                long int save2file, char *key, FILE *iout)
