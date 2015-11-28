@@ -115,6 +115,8 @@
 // Local modules
 #include "Parameters.h"
 
+#include "AC_AttitudeControl_MPC.h"
+
 #if CONFIG_HAL_BOARD == HAL_BOARD_SITL
 #include <SITL/SITL.h>
 #endif
@@ -515,6 +517,8 @@ private:
     // Top-level logic
     // setup the var_info table
     AP_Param param_loader;
+
+    AC_AttitudeControl_MPC attitude_control_mpc;
 
 #if FRAME_CONFIG == HELI_FRAME
     // Mode filter to reject RC Input glitches.  Filter size is 5, and it draws the 4th element, so it can reject 3 low glitches,
