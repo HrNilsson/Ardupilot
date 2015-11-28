@@ -95,6 +95,14 @@ bool Copter::set_mode(uint8_t mode)
             success = brake_init(ignore_checks);
             break;
 
+        case PID_TEST:
+            success = PID_test_init(ignore_checks);
+            break;
+
+        case MPC_TEST:
+            success = MPC_test_init(ignore_checks);
+            break;
+
         default:
             success = false;
             break;
@@ -206,6 +214,14 @@ void Copter::update_flight_mode()
         case BRAKE:
             brake_run();
             break;
+
+        case PID_TEST:
+			PID_test_run();
+			break;
+
+		case MPC_TEST:
+			MPC_test_run();
+			break;
     }
 }
 
@@ -273,6 +289,8 @@ bool Copter::mode_has_manual_throttle(uint8_t mode) {
     switch(mode) {
         case ACRO:
         case STABILIZE:
+        case PID_TEST:
+        case MPC_TEST:
             return true;
         default:
             return false;
@@ -361,6 +379,12 @@ void Copter::print_flight_mode(AP_HAL::BetterStream *port, uint8_t mode)
         break;
     case BRAKE:
         port->print("BRAKE");
+        break;
+    case PID_TEST:
+        port->print("PID_TEST");
+        break;
+    case MPC_TEST:
+        port->print("MPC_TEST");
         break;
     default:
         port->printf("Mode(%u)", (unsigned)mode);

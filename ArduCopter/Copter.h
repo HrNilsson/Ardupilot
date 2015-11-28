@@ -520,6 +520,18 @@ private:
 
     AC_AttitudeControl_MPC attitude_control_mpc;
 
+    // Orientation type
+   struct orientation
+   {
+	   float targetRoll;
+	   float targetPitch;
+   };
+
+   orientation test_sequence [17];
+
+   uint8_t test_iterator;
+   uint16_t time_passed;
+
 #if FRAME_CONFIG == HELI_FRAME
     // Mode filter to reject RC Input glitches.  Filter size is 5, and it draws the 4th element, so it can reject 3 low glitches,
     // and 1 high glitch.  This is because any "off" glitches can be highly problematic for a helicopter running an ESC
@@ -985,6 +997,13 @@ private:
     void run_cli(AP_HAL::UARTDriver *port);
     void init_capabilities(void);
     void dataflash_periodic(void);
+
+    bool PID_test_init(bool ignore_checks);
+	void PID_test_run(void);
+	void advance_test(void);
+	bool MPC_test_init(bool ignore_checks);
+	void MPC_test_run(void);
+
 
 public:
     void mavlink_delay_cb();
