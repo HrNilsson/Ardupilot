@@ -555,7 +555,7 @@ int midaco(integer *p, integer *n, integer *ni, integer *m,
       }
       i95 = 1;
   }
-  if ((d__1 = i5[i20] - i2[i20], abs(d__1)) <= 1e-12) {
+  if ((d__1 = i5[i20] - i2[i20], midacoabs(d__1)) <= 1e-12) {
       i6[i38 + i20 - 1] = 1;
       if (i10 >= *m) {
     goto L2;
@@ -837,7 +837,7 @@ doublereal i04_(doublereal *a, doublereal *b)
   i6[10] = pow_ii(&i36[4], &i96);
     }
     if (i48[6] < 0. && i6[10] != 0) {
-  d__1 = abs(i48[6]);
+  d__1 = midacoabs(i48[6]);
   i6[10] = i_dnnt(&d__1);
     }
     i74 = i36[5];
@@ -982,7 +982,7 @@ doublereal i04_(doublereal *a, doublereal *b)
   *i42 = 302;
   goto L701;
     }
-    if (abs(i48[3]) > 1e12) {
+    if (midacoabs(i48[3]) > 1e12) {
   *i42 = 303;
   goto L701;
     }
@@ -990,11 +990,11 @@ doublereal i04_(doublereal *a, doublereal *b)
   *i42 = 304;
   goto L701;
     }
-    if (abs(i48[5]) > 1e12) {
+    if (midacoabs(i48[5]) > 1e12) {
   *i42 = 305;
   goto L701;
     }
-    if ((i48[6] != 0. && abs(i48[6]) < 1.) || abs(i48[6]) > 1e12) {
+    if ((i48[6] != 0. && midacoabs(i48[6]) < 1.) || midacoabs(i48[6]) > 1e12) {
   *i42 = 306;
   goto L701;
     }
@@ -1081,15 +1081,15 @@ doublereal i04_(doublereal *a, doublereal *b)
     }
     i__1 = *m;
     for (i__ = *m - *i8 + 1; i__ <= i__1; ++i__) {
-  if ((d__1 = g[i__] - d_nint(&g[i__]), abs(d__1)) > 1e-4) {
+  if ((d__1 = g[i__] - d_nint(&g[i__]), midacoabs(d__1)) > 1e-4) {
       *i42 = 61;
       goto L702;
   }
-  if ((d__1 = i5[i__] - d_nint(&i5[i__]), abs(d__1)) > 1e-4) {
+  if ((d__1 = i5[i__] - d_nint(&i5[i__]), midacoabs(d__1)) > 1e-4) {
       *i42 = 62;
       goto L702;
   }
-  if ((d__1 = i2[i__] - d_nint(&i2[i__]), abs(d__1)) > 1e-4) {
+  if ((d__1 = i2[i__] - d_nint(&i2[i__]), midacoabs(d__1)) > 1e-4) {
       *i42 = 63;
       goto L702;
   }
@@ -1105,11 +1105,11 @@ doublereal i04_(doublereal *a, doublereal *b)
       goto L702;
   }
     }
-    if (abs(i48[3]) > 1e8) {
+    if (midacoabs(i48[3]) > 1e8) {
   *i42 = 91;
   goto L702;
     }
-    if (abs(i48[5]) > 1e8) {
+    if (midacoabs(i48[5]) > 1e8) {
   *i42 = 92;
   goto L702;
     }
@@ -1411,9 +1411,9 @@ L13:
     }
     if (i48[6] != 0.) {
         if (i__ <= *m - *i8) {
-      i35 = (i2[i__] - i5[i__]) / abs(i48[6]);
+      i35 = (i2[i__] - i5[i__]) / midacoabs(i48[6]);
         } else {
-      i35 = 1. / sqrt((abs(i48[6])));
+      i35 = 1. / sqrt((midacoabs(i48[6])));
         }
     }
     d__1 = i02_(&i4[1]);
@@ -1465,7 +1465,7 @@ L13:
       } else {
     if (i4[i52 + i75] <= i70) {
         if (i70 <= i16) {
-      if (i4[i52 + i56] < i60 - (d__1 = i60 / 1e6, abs(d__1)
+      if (i4[i52 + i56] < i60 - (d__1 = i60 / 1e6, midacoabs(d__1)
         )) {
           i60 = i4[i52 + i56];
           i70 = i4[i52 + i75];
@@ -1555,12 +1555,12 @@ L86:
       i4[i90 + i__] = 90.;
       goto L87;
   }
-  if ((d__1 = g[i__] - i5[i__], abs(d__1)) <= (i2[i__] - i5[i__]) / 1e3)
+  if ((d__1 = g[i__] - i5[i__], midacoabs(d__1)) <= (i2[i__] - i5[i__]) / 1e3)
      {
       i4[i90 + i__] = 0.;
       goto L87;
   }
-  if ((d__1 = g[i__] - i2[i__], abs(d__1)) <= (i2[i__] - i5[i__]) / 1e3)
+  if ((d__1 = g[i__] - i2[i__], midacoabs(d__1)) <= (i2[i__] - i5[i__]) / 1e3)
      {
       i4[i90 + i__] = 22.;
       goto L87;
@@ -1630,10 +1630,10 @@ L87:
     }
       }
   }
-  if (i4[*i49 + i__ - 1] < (d__1 = i4[*i19 + i__ - 1], abs(d__1)) / ((
+  if (i4[*i49 + i__ - 1] < (d__1 = i4[*i19 + i__ - 1], midacoabs(d__1)) / ((
     doublereal) pow_ii(&c__10, &i36[19]) * (doublereal) i6[*i18]))
      {
-      i4[*i49 + i__ - 1] = (d__1 = i4[*i19 + i__ - 1], abs(d__1)) / ((
+      i4[*i49 + i__ - 1] = (d__1 = i4[*i19 + i__ - 1], midacoabs(d__1)) / ((
         doublereal) pow_ii(&c__10, &i36[19]) * (doublereal) i6[*
         i18]);
   }
@@ -2054,7 +2054,7 @@ L83:
   ;
     }
     if (*i42 == -10) {
-  if (i4[i11] < i4[i1] - (d__1 = i4[i1], abs(d__1)) / (doublereal) (i36[
+  if (i4[i11] < i4[i1] - (d__1 = i4[i1], midacoabs(d__1)) / (doublereal) (i36[
     11] << 1)) {
       goto L84;
   }
@@ -2156,7 +2156,7 @@ L11:
       if (i6[i18] == 1) {
     if (i6[10] <= 1) {
         if (i48[6] != 0.) {
-      d__1 = abs(i48[6]);
+      d__1 = midacoabs(i48[6]);
       i018_(m, i8, &g[(c__ - 1) * *m + 1], &i5[1], &i2[1], &
         i4[1], &i31, &d__1, &i36[1]);
         } else {
@@ -2164,7 +2164,7 @@ L11:
         i4[1]);
         }
     } else {
-        d__1 = abs(i48[6]);
+        d__1 = midacoabs(i48[6]);
         i06_(m, i8, &i4[1],  &i6[1], &i31, &g[(c__ - 1) *
            *m + 1], &i5[1], &i2[1], &d__1, &i36[1]);
     }
@@ -2218,7 +2218,7 @@ L13:
   if (i6[i18] == 1) {
       if (i6[10] <= 1) {
     if (i48[6] != 0.) {
-        d__1 = abs(i48[6]);
+        d__1 = midacoabs(i48[6]);
         i018_(m, i8, &g[(c__ - 1) * *m + 1], &i5[1], &i2[1], &i4[
           1], &i31, &d__1, &i36[1]);
     } else {
@@ -2226,7 +2226,7 @@ L13:
           1]);
     }
       } else {
-    d__1 = abs(i48[6]);
+    d__1 = midacoabs(i48[6]);
     i06_(m, i8, &i4[1],  &i6[1], &i31, &g[(c__ - 1) * *m
       + 1], &i5[1], &i2[1], &d__1, &i36[1]);
       }
@@ -2403,13 +2403,13 @@ L2:
 
     /* Function Body */
     if (*i17 <= 0. && i4[*i40] <= 0.) {
-  if (*l >= i4[*i14] - (d__1 = i4[*i14], abs(d__1)) / (doublereal)
+  if (*l >= i4[*i14] - (d__1 = i4[*i14], midacoabs(d__1)) / (doublereal)
     pow_ii(&c__10, &i36[12])) {
       i6[*c__ + 31] = 0;
       goto L1;
   }
     } else {
-  if (*p >= i4[*i11] - (d__1 = i4[*i11], abs(d__1)) / (doublereal)
+  if (*p >= i4[*i11] - (d__1 = i4[*i11], midacoabs(d__1)) / (doublereal)
     pow_ii(&c__10, &i36[12])) {
       i6[*c__ + 31] = 0;
       goto L1;
@@ -2931,8 +2931,8 @@ L2:
 double pow();
 double pow_dd(ap, bp) doublereal *ap, *bp;
 #else
-#undef abs
-#include "math.h"
+//#undef abs
+//#include "math.h"
 #endif
 
 double sqrt(doublereal x)
@@ -3041,8 +3041,8 @@ integer pow_ii(integer *ap, integer *bp)
 double floor();
 integer i_dnnt(x) doublereal *x;
 #else
-#undef abs
-#include "math.h"
+//#undef abs
+//#include "math.h"
 #ifdef __cplusplus
 //extern "C" {
 #endif
@@ -3058,23 +3058,9 @@ return (integer)(*x >= 0. ? floor(*x + .5) : -floor(.5 - *x));
 
 
 
-#include <stdio.h>
 #include <math.h>
 #include <time.h>
 double gettime(){ time_t second; second = time(NULL); return (double) second; }
-int force_output( FILE *iout );
-int warnings_and_erros( long int *iflag, FILE *iout );
-int print_head(long int n, long int ni, long int m, long int me, double *param,
-               long int maxeval, long int printeval, long int maxtime,
-               long int save2file, char *key, FILE *iout);
-int print_line(long int eval, double tnow, double f, double vio, FILE *iout);
-int print_solution(long int n,long int m,long int me,double *x,double *g,
-                   double *f,double *vio,double *xl,double *xu, double acc,
-                   long int eval, double tnow,long int iflag, FILE *iout);
-int print_final(long int iflag, double tnow, double tmax, long int eval, long int maxeval,
-                long int n, long int m, long int me, double *x, double *g, double *f,
-                double *xl, double *xu, double *rw, double acc, long int wres, double *param,
-    FILE *iout);
 /*CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
     C     This subroutine handles all printing commands for MIDACO.
     C     Note that this subroutine is called independently from MIDACO and
@@ -3115,276 +3101,9 @@ int print_final(long int iflag, double tnow, double tmax, long int eval, long in
         return 0;
     }
 
-int print_head(long int n, long int ni, long int m, long int me, double *param,
-               long int maxeval, long int maxtime, long int printeval,
-               long int save2file, char *key, FILE *iout)
-{
-  int i, dummy;
-  fprintf(iout,"\n MIDACO 4.0    (www.midaco-solver.com)");
-  fprintf(iout,"\n -------------------------------------\n\n");
-  fprintf(iout," LICENSE-KEY:  ");for(i=0;i<=59;i++){fprintf(iout,"%c",key[i]);}
-  fprintf(iout,"\n\n -------------------------------------\n");
-  fprintf(iout," | N%7li    | MAXEVAL%12li |\n",n,maxeval);
-  fprintf(iout," | NI%6li    | MAXTIME%12li |\n",ni,maxtime);
-  fprintf(iout," | M%7li    | PRINTEVAL%10li |\n",m,printeval);
-  fprintf(iout," | ME%6li    | SAVE2FILE%10li |\n",me,save2file);
-  fprintf(iout," -------------------------------------\n");
-  dummy = 0; for(i=0;i<=8;i++){ if(param[i] != 0.0){ dummy=1;}}
-  if(dummy == 0)
-  {
-    fprintf(iout," | PARAMETER:   All by default (0)   |\n");
-  }
-  else
-  {
-    if((param[0] != 0.0)&&(param[0] < 0.000001)){
-    fprintf(iout," | PARAM[0]%10.1e  ACCURACY G(X) |\n",param[0]);}else{
-
-    if(param[0]==0){ fprintf(iout," | PARAM[0]%10.6f  ACCURACY G(X) |\n",0.001); }
-    if(param[0] >0){ fprintf(iout," | PARAM[0]%10.6f  ACCURACY G(X) |\n",param[0]); }
-
-    }
-    fprintf(iout," -------------------------------------\n");
-    fprintf(iout," | PARAM[1]  %10.1f  RANDOM-SEED |\n",param[1]);
-    if(param[2] == 0.0){
-    fprintf(iout," | PARAM[2]  %10.1f  FSTOP       |\n",param[2]);}else{
-    fprintf(iout," | PARAM[2]  %10.3e  FSTOP       |\n",param[2]);}
-    fprintf(iout," | PARAM[3]  %10.1f  AUTOSTOP    |\n",param[3]);
-    if(param[4] == 0.0){
-    fprintf(iout," | PARAM[4]  %10.1f  ORACLE      |\n",param[4]);}else{
-    fprintf(iout," | PARAM[4]  %10.3e  ORACLE      |\n",param[4]);}
-    fprintf(iout," | PARAM[5]  %10.1f  FOCUS       |\n",param[5]);
-    fprintf(iout," | PARAM[6]  %10.1f  ANTS        |\n",param[6]);
-    fprintf(iout," | PARAM[7]  %10.1f  KERNEL      |\n",param[7]);
-    fprintf(iout," | PARAM[8]  %10.1f  CHARACTER   |\n",param[8]);
-  }
-  fprintf(iout," -------------------------------------\n\n");
-  /* print headline */
-  fprintf(iout," [     EVAL,    TIME]        OBJECTIVE FUNCTION VALUE         VIOLATION OF G(X)\n");
-  fprintf(iout," ------------------------------------------------------------------------------\n");
-  return 0;
-}
-
-int print_line(long int eval, double tnow, double f, double vio, FILE *iout)
-{
-    if(fabs(f) <= 1.0e+10)
-    {
-      if(vio <= 1.0e+5)
-      {
-        fprintf(iout," [%9li,%8.0f]        F(X):%19.8f         VIO:%13.6f\n",eval,tnow,f,vio);
-      }else{
-        fprintf(iout," [%9li,%8.0f]        F(X):%19.8f         VIO:%13.6e\n",eval,tnow,f,vio);
-      }
-    }else{
-      if(vio <= 1.0e+5)
-      {
-        fprintf(iout," [%9li,%8.0f]        F(X):%19.8e         VIO:%13.6f\n",eval,tnow,f,vio);
-      }else{
-        fprintf(iout," [%9li,%8.0f]        F(X):%19.8e         VIO:%13.6e\n",eval,tnow,f,vio);
-      }
-    }
-    return 0;
-}
-
-int print_solution(long int n,long int m,long int me,double *x,double *g,
-                   double *f,double *vio,double *xl,double *xu, double acc,
-                   long int eval, double tnow,long int iflag, FILE *iout)
-{
-    int i,j;
-    int on;
-    int profil;
-
-    fprintf(iout,"\n --------------------------------------------\n");
-    fprintf(iout," EVAL:%10li,  TIME:%8.2f,  IFLAG:%4li \n",eval,tnow,iflag);
-    fprintf(iout," --------------------------------------------\n");
-
-    if(fabs(f[0]) <= 1.0e+14)
-    {
-            fprintf(iout," F(X) =%38.15f \n",f[0]);
-    }else{
-            fprintf(iout," F(X) =%38.6e \n",f[0]);
-    }
-    fprintf(iout," --------------------------------------------\n");
-
-
-
-    if(m > 0)
-    {
-        if(iflag < 100)
-        {
-          if(vio[0] <= 1.0e+12)
-          {
-                  fprintf(iout," VIOLATION OF G(X)%27.12f\n",vio[0]);
-          }else{
-                  fprintf(iout," VIOLATION OF G(X)%27.6e\n",vio[0]);
-          }
-          fprintf(iout," --------------------------------------------\n");
-        }
-        for( i=0; i<m; i++)
-        {
-            if(i < me)
-            {
-              if(fabs(g[i]) <= acc)
-              {
-                fprintf(iout," g[%4i] =%16.8f  (EQUALITY CONSTR)\n",i,g[i]);
-              }
-              else
-              {
-                if(fabs(g[i]) <= 1.0e+14){
-                fprintf(iout," g[%4i] =%16.8f  (EQUALITY CONSTR)  <---  INFEASIBLE  ( G NOT = 0 )\n",i,g[i]);
-                }else{
-                fprintf(iout," g[%4i] =%16.1e  (EQUALITY CONSTR)  <---  INFEASIBLE  ( G NOT = 0 )\n",i,g[i]);
-                }
-              }
-            }
-            if(i >= me)
-            {
-              if(g[i] > -acc)
-              {
-                if(fabs(g[i]) <= 1.0e+14){
-                fprintf(iout," g[%4i] =%16.8f  (IN-EQUAL CONSTR)\n",i,g[i]);
-                }else{
-                fprintf(iout," g[%4i] =%16.1e  (IN-EQUAL CONSTR)\n",i,g[i]);
-                }
-              }
-              else
-              {
-                if(fabs(g[i]) <= 1.0e+14){
-                fprintf(iout," g[%4i] =%16.8f  (IN-EQUAL CONSTR)  <---  INFEASIBLE  ( G < 0 )\n",i,g[i]);
-                }else{
-                fprintf(iout," g[%4i] =%16.1e  (IN-EQUAL CONSTR)  <---  INFEASIBLE  ( G < 0 )\n",i,g[i]);
-                }
-              }
-            }
-
-        }
-        fprintf(iout," --------------------------------------------         BOUNDS-PROFIL    \n");
-    }
-    for( i=0; i<n; i++)
-    {
-        profil = -1; on = 1;
-        if((on==1)&&( x[i] > xu[i]+1.0e-6 )){ profil = 91; on = 0; }
-        if((on==1)&&( x[i] < xl[i]-1.0e-6 )){ profil = 92; on = 0; }
-        if((on==1)&&( xl[i] > xu[i]       )){ profil = 93; on = 0; }
-        if((on==1)&&( xl[i] == xu[i]      )){ profil = 90; on = 0; }
-        if((on==1)&&( fabs(x[i]-xl[i]) < (xu[i]-xl[i])/1000.0 )){ profil =  0; on = 0; }
-        if((on==1)&&( fabs(xu[i]-x[i]) < (xu[i]-xl[i])/1000.0 )){ profil = 22; on = 0; }
-        for( j=1; j<=21; j++)
-        {
-          if((on==1)&&( x[i] <= xl[i] + ((double) j) * (xu[i]-xl[i])/21.0 )){ profil = j; on = 0; }
-        }
-if( fabs(x[i]) <= 1.0e+14 )
-{
-        if(profil == 0){fprintf(iout," x[%4i] =%34.15f;  /* XL___________________ */\n",i,x[i]);}
-        if(profil == 1){fprintf(iout," x[%4i] =%34.15f;  /* x____________________ */\n",i,x[i]);}
-        if(profil == 2){fprintf(iout," x[%4i] =%34.15f;  /* _x___________________ */\n",i,x[i]);}
-        if(profil == 3){fprintf(iout," x[%4i] =%34.15f;  /* __x__________________ */\n",i,x[i]);}
-        if(profil == 4){fprintf(iout," x[%4i] =%34.15f;  /* ___x_________________ */\n",i,x[i]);}
-        if(profil == 5){fprintf(iout," x[%4i] =%34.15f;  /* ____x________________ */\n",i,x[i]);}
-        if(profil == 6){fprintf(iout," x[%4i] =%34.15f;  /* _____x_______________ */\n",i,x[i]);}
-        if(profil == 7){fprintf(iout," x[%4i] =%34.15f;  /* ______x______________ */\n",i,x[i]);}
-        if(profil == 8){fprintf(iout," x[%4i] =%34.15f;  /* _______x_____________ */\n",i,x[i]);}
-        if(profil == 9){fprintf(iout," x[%4i] =%34.15f;  /* ________x____________ */\n",i,x[i]);}
-        if(profil ==10){fprintf(iout," x[%4i] =%34.15f;  /* _________x___________ */\n",i,x[i]);}
-        if(profil ==11){fprintf(iout," x[%4i] =%34.15f;  /* __________x__________ */\n",i,x[i]);}
-        if(profil ==12){fprintf(iout," x[%4i] =%34.15f;  /* ___________x_________ */\n",i,x[i]);}
-        if(profil ==13){fprintf(iout," x[%4i] =%34.15f;  /* ____________x________ */\n",i,x[i]);}
-        if(profil ==14){fprintf(iout," x[%4i] =%34.15f;  /* _____________x_______ */\n",i,x[i]);}
-        if(profil ==15){fprintf(iout," x[%4i] =%34.15f;  /* ______________x______ */\n",i,x[i]);}
-        if(profil ==16){fprintf(iout," x[%4i] =%34.15f;  /* _______________x_____ */\n",i,x[i]);}
-        if(profil ==17){fprintf(iout," x[%4i] =%34.15f;  /* ________________x____ */\n",i,x[i]);}
-        if(profil ==18){fprintf(iout," x[%4i] =%34.15f;  /* _________________x___ */\n",i,x[i]);}
-        if(profil ==19){fprintf(iout," x[%4i] =%34.15f;  /* __________________x__ */\n",i,x[i]);}
-        if(profil ==20){fprintf(iout," x[%4i] =%34.15f;  /* ___________________x_ */\n",i,x[i]);}
-        if(profil ==21){fprintf(iout," x[%4i] =%34.15f;  /* ____________________x */\n",i,x[i]);}
-        if(profil ==22){fprintf(iout," x[%4i] =%34.15f;  /* ___________________XU */\n",i,x[i]);}
-        if(profil ==90){fprintf(iout," x[%4i] =%34.15f;  /* WARNING: XL = XU      */\n",i,x[i]);}
-        if(profil ==91){fprintf(iout," x[%4i] =%34.15f; ***ERROR*** (X > XU)        \n",i,x[i]);}
-        if(profil ==92){fprintf(iout," x[%4i] =%34.15f; ***ERROR*** (X < XL)        \n",i,x[i]);}
-        if(profil ==93){fprintf(iout," x[%4i] =%34.15f; ***ERROR*** (XL > XU)       \n",i,x[i]);}
-        if(profil < 0 ){fprintf(iout," PROFIL-ERROR");}
-}else{
-        if(profil == 0){fprintf(iout," x[%4i] =%34.1e;  /* XL___________________ */\n",i,x[i]);}
-        if(profil == 1){fprintf(iout," x[%4i] =%34.1e;  /* x____________________ */\n",i,x[i]);}
-        if(profil == 2){fprintf(iout," x[%4i] =%34.1e;  /* _x___________________ */\n",i,x[i]);}
-        if(profil == 3){fprintf(iout," x[%4i] =%34.1e;  /* __x__________________ */\n",i,x[i]);}
-        if(profil == 4){fprintf(iout," x[%4i] =%34.1e;  /* ___x_________________ */\n",i,x[i]);}
-        if(profil == 5){fprintf(iout," x[%4i] =%34.1e;  /* ____x________________ */\n",i,x[i]);}
-        if(profil == 6){fprintf(iout," x[%4i] =%34.1e;  /* _____x_______________ */\n",i,x[i]);}
-        if(profil == 7){fprintf(iout," x[%4i] =%34.1e;  /* ______x______________ */\n",i,x[i]);}
-        if(profil == 8){fprintf(iout," x[%4i] =%34.1e;  /* _______x_____________ */\n",i,x[i]);}
-        if(profil == 9){fprintf(iout," x[%4i] =%34.1e;  /* ________x____________ */\n",i,x[i]);}
-        if(profil ==10){fprintf(iout," x[%4i] =%34.1e;  /* _________x___________ */\n",i,x[i]);}
-        if(profil ==11){fprintf(iout," x[%4i] =%34.1e;  /* __________x__________ */\n",i,x[i]);}
-        if(profil ==12){fprintf(iout," x[%4i] =%34.1e;  /* ___________x_________ */\n",i,x[i]);}
-        if(profil ==13){fprintf(iout," x[%4i] =%34.1e;  /* ____________x________ */\n",i,x[i]);}
-        if(profil ==14){fprintf(iout," x[%4i] =%34.1e;  /* _____________x_______ */\n",i,x[i]);}
-        if(profil ==15){fprintf(iout," x[%4i] =%34.1e;  /* ______________x______ */\n",i,x[i]);}
-        if(profil ==16){fprintf(iout," x[%4i] =%34.1e;  /* _______________x_____ */\n",i,x[i]);}
-        if(profil ==17){fprintf(iout," x[%4i] =%34.1e;  /* ________________x____ */\n",i,x[i]);}
-        if(profil ==18){fprintf(iout," x[%4i] =%34.1e;  /* _________________x___ */\n",i,x[i]);}
-        if(profil ==19){fprintf(iout," x[%4i] =%34.1e;  /* __________________x__ */\n",i,x[i]);}
-        if(profil ==20){fprintf(iout," x[%4i] =%34.1e;  /* ___________________x_ */\n",i,x[i]);}
-        if(profil ==21){fprintf(iout," x[%4i] =%34.1e;  /* ____________________x */\n",i,x[i]);}
-        if(profil ==22){fprintf(iout," x[%4i] =%34.1e;  /* ___________________XU */\n",i,x[i]);}
-        if(profil ==90){fprintf(iout," x[%4i] =%34.1e;  /* WARNING: XL = XU      */\n",i,x[i]);}
-        if(profil ==91){fprintf(iout," x[%4i] =%34.1e; ***ERROR*** (X > XU)        \n",i,x[i]);}
-        if(profil ==92){fprintf(iout," x[%4i] =%34.1e; ***ERROR*** (X < XL)        \n",i,x[i]);}
-        if(profil ==93){fprintf(iout," x[%4i] =%34.1e; ***ERROR*** (XL > XU)       \n",i,x[i]);}
-        if(profil < 0 ){fprintf(iout," PROFIL-ERROR");}
-}
-    }
-    fprintf(iout," \n ");
-    return 0;
-}
-int print_final(long int iflag, double tnow, double tmax, long int eval, long int maxeval,
-                long int n, long int m, long int me, double *x, double *g, double *f,
-                double *xl, double *xu, double *rw, double acc, long int wres, double *param, FILE *iout)
-  {
-      double vio[1];
-      vio[0] = rw[wres];
-
-      if((iflag == 1)||(iflag == 2))
-      {
-      if(tnow >=    tmax){ fprintf(iout,"\n OPTIMIZATION FINISHED  --->  MAXTIME REACHED");}
-      if(eval >= maxeval){ fprintf(iout,"\n OPTIMIZATION FINISHED  --->  MAXEVAL REACHED");}
-      }
-      if((iflag == 3)||(iflag == 4))
-      {
-          fprintf(iout,"\n OPTIMIZATION FINISHED  --->  AUTOSTOP (=%3li)",(long int)param[3]);
-      }
-      if((iflag == 5)||(iflag == 6))
-      {
-          fprintf(iout,"\n OPTIMIZATION FINISHED  --->  FSTOP REACHED");
-      }
-      fprintf(iout,"\n\n\n         BEST SOLUTION FOUND BY MIDACO");
-
-      print_solution( n, m, me, &*x, &*g, &*f, &*vio,
-                      &*xl, &*xu, acc,eval, tnow, iflag, &*iout);
-  return 0;
-  }
-  int warnings_and_erros( long int *iflag, FILE *iout )
-  {
-    if(*iflag < 100)
-    {
-      fprintf(iout,"\n *** WARNING ***   ( IFLAG =%6li )\n\n", *iflag);
-    }
-    else
-    {
-     fprintf(iout,"\n *** MIDACO INPUT ERROR ***   ( IFLAG =%6li )\n\n", *iflag);
-    }
-    return 0;
-  }
-
 /**********************************************************************************/
 /**********************************************************************************/
 /**********************************************************************************/
 
-  int force_output( FILE *iout )
-  {
- /* This command flushes the MIDACO output to text files. */
- /* In case you have problems compiling this command, you can remove it. */
-    fflush( iout );
-    return 0;
-  }
 } // End of namespace Midaco
   /* END OF FILE */

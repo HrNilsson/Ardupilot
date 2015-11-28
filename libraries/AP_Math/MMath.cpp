@@ -1,6 +1,6 @@
 #include "MMath.h"
 
-//#pragma GCC optimize("O3")
+#pragma GCC optimize("O3")
 
 
 
@@ -60,7 +60,7 @@ bool compareM(float A[][2], float B[][2], size_t r, size_t c)
 	for (int i = 0; i<(int)r; ++i)
 		for (int j = 0; j<(int)c; ++j)
 		{
-			if (abs(A[i][j] - B[i][j]) >= std::numeric_limits<float>::epsilon())
+			if (abs(A[i][j] - B[i][j]) >= 1.19209289550781250000e-7F)//std::numeric_limits<float>::epsilon())
 				return false;
 		}
 
@@ -73,7 +73,7 @@ bool compareM(float A[][3], float B[][3], size_t r, size_t c)
 	for (int i = 0; i<(int)r; ++i)
 	for (int j = 0; j<(int)c; ++j)
 	{
-		if (abs(A[i][j] - B[i][j]) >= std::numeric_limits<float>::epsilon())
+		if (abs(A[i][j] - B[i][j]) >= 1.19209289550781250000e-7F)//std::numeric_limits<float>::epsilon())
 			return false;
 	}
 
@@ -85,7 +85,7 @@ bool compareM(float A[][4], float B[][4], size_t r, size_t c)
 	for (int i = 0; i<(int)r; ++i)
 		for (int j = 0; j<(int)c; ++j)
 		{
-			if (abs(A[i][j] - B[i][j]) >= std::numeric_limits<float>::epsilon())
+			if (abs(A[i][j] - B[i][j]) >= 1.19209289550781250000e-7F)//std::numeric_limits<float>::epsilon())
 				return false;
 		}
 
@@ -97,7 +97,7 @@ bool compareM(float A[][5], float B[][5], size_t r, size_t c)
 	for (int i = 0; i<(int)r; ++i)
 		for (int j = 0; j<(int)c; ++j)
 		{
-			if (abs(A[i][j] - B[i][j]) >= std::numeric_limits<float>::epsilon())
+			if (abs(A[i][j] - B[i][j]) >= 1.19209289550781250000e-7F)//std::numeric_limits<float>::epsilon())
 				return false;
 		}
 
