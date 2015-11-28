@@ -29,6 +29,19 @@ public:
 
     virtual ~AC_AttitudeControl_MPC()
     {}
+
+    void initMPC(); //inits midaco
+	void updateState(); //updates dx and y
+	void updateMatrices(double rollTarget, double pitchTarget, double yawTarget); //calculates f
+	void solve(); //Invokes the midaco solver
+	void outputToMotor();
+
+	double getf1();
+	double getf2();
+	double getf3();
+	double getx1();
+	double getx2();
+	double getx3();
 private:
     // references to external libraries
     const AP_AHRS&      _ahrs;
@@ -75,20 +88,6 @@ private:
     double **_temp2 = ptrAlloc(90, 1, temp2);
     double **_temp3 = ptrAlloc(1, 90, temp3);
     double **_temp4 = ptrAlloc(1, 3, temp4);*/
-
-    void initMPC(); //inits midaco
-    void updateState(); //updates dx and y
-    void updateMatrices(double rollTarget, double pitchTarget, double yawTarget); //calculates f
-    void solve(); //Invokes the midaco solver
-    void outputToMotor();
-
-    double getf1();
-    double getf2();
-    double getf3();
-    double getx1();
-    double getx2();
-    double getx3();
-
 };
 
 #endif /* AC_ATTITUDE_MPC_H */

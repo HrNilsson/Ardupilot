@@ -40,7 +40,7 @@ bool Copter::MPC_test_init(bool ignore_checks)
     hal.scheduler->register_timer_process(FUNCTOR_BIND_MEMBER(&Copter::advance_test, void));
 */
 
-    //attitude_control_mpc.initMPC();
+    attitude_control_mpc.initMPC();
 
 
     // stabilize should never be made to fail
@@ -80,13 +80,15 @@ void Copter::MPC_test_run()
     pilot_throttle_scaled = get_pilot_desired_throttle(channel_throttle->control_in);
 
 
-    //attitude_control_mpc.updateState();
-    //attitude_control_mpc.updateMatrices(target_roll, target_pitch, target_yaw_rate);
-    //attitude_control_mpc.solve();
-    //attitude_control_mpc.outputToMotor();
+    attitude_control_mpc.updateState();
+    attitude_control_mpc.updateMatrices(target_roll, target_pitch, target_yaw_rate);
+    attitude_control_mpc.solve();
+    attitude_control_mpc.outputToMotor();
 
     // call attitude controller
     //attitude_control.angle_ef_roll_pitch_rate_ef_yaw_smooth(test_sequence[test_iterator].targetRoll, test_sequence[test_iterator].targetPitch, target_yaw_rate, get_smoothing_gain());
+    //attitude_control.angle_ef_roll_pitch_rate_ef_yaw_smooth(target_roll, target_pitch, target_yaw_rate, get_smoothing_gain());
+
 
     // body-frame rate controller is run directly from 100hz loop
 
