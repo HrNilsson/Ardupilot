@@ -335,7 +335,7 @@ void midaco_init()
         g_K[1] = 102;
         g_K[2] = 512;
 
-        g_maxeval = 120;     /* Maximum number of function evaluation (e.g. 1000000) */
+        g_maxeval = 20;     /* Maximum number of function evaluation (e.g. 1000000) */
         g_maxtime = 1;  /* Maximum time limit in Seconds (e.g. 1 Day = 60*60*24) */
 
         g_param[0] =  0.0;   /*  ACCURACY      (default value is 0.001)      */
