@@ -985,6 +985,11 @@ private:
     void run_cli(AP_HAL::UARTDriver *port);
     void init_capabilities(void);
     void dataflash_periodic(void);
+    bool PID_test_init(bool ignore_checks);
+    void PID_test_run(void);
+    void advance_test(void);
+    bool MPC_test_init(bool ignore_checks);
+	void MPC_test_run(void);
 
 public:
     void mavlink_delay_cb();

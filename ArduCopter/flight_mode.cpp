@@ -96,7 +96,7 @@ bool Copter::set_mode(uint8_t mode)
             break;
 
         case PID_TEST:
-            //success = PID_test_init(ignore_checks);
+            success = PID_test_init(ignore_checks);
             break;
 
         case MPC_TEST:
@@ -216,7 +216,7 @@ void Copter::update_flight_mode()
             break;
 
         case PID_TEST:
-			//PID_test_run();
+			PID_test_run();
 			break;
 
 		case MPC_TEST:
