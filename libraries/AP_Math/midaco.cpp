@@ -331,9 +331,9 @@ void midaco_init()
 
     /*  STEP 1.D: Define values for constant'K'  */
     /*  ***********************************  */
-        g_K[0] = 102;
-        g_K[1] = 102;
-        g_K[2] = 512;
+        g_K[0] = 101.65;
+        g_K[1] = 10.094;
+        g_K[2] = 311.98;
 
         g_maxeval = 20;     /* Maximum number of function evaluation (e.g. 1000000) */
         g_maxtime = 1;  /* Maximum time limit in Seconds (e.g. 1 Day = 60*60*24) */

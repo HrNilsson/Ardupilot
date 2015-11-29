@@ -21,6 +21,7 @@
  */
 #include <AP_HAL/AP_HAL.h>
 #include "AP_MotorsMatrix.h"
+//#include "stdio.h"
 
 extern const AP_HAL::HAL& hal;
 
@@ -211,10 +212,14 @@ void AP_MotorsMatrix::output_armed_stabilizing()
         limit.throttle_upper = true;
     }
 
+    //fprintf(stderr,"Angles: %d, %d, %d\r\n",(int)(1000*_roll_control_input),(int)(1000*_pitch_control_input),(int)(1000*_yaw_control_input));
+
     roll_pwm = calc_roll_pwm();
     pitch_pwm = calc_pitch_pwm();
     yaw_pwm = calc_yaw_pwm();
     throttle_radio_output = calc_throttle_radio_output();
+
+    //fprintf(stderr,"Angles PWM: %d, %d, %d\r\n",roll_pwm,pitch_pwm,yaw_pwm);
 
     // calculate roll and pitch for each motor
     // set rpy_low and rpy_high to the lowest and highest values of the motors
@@ -231,6 +236,7 @@ void AP_MotorsMatrix::output_armed_stabilizing()
             if (rpy_out[i] > rpy_high) {
                 rpy_high = rpy_out[i];
             }
+            //fprintf(stderr,"RPY roll/pitch %d: %d\r\n",i,rpy_out[i]);
         }
     }
 
@@ -301,6 +307,7 @@ void AP_MotorsMatrix::output_armed_stabilizing()
             thr_adj = thr_adj_max;
             // we haven't even been able to apply full throttle command
             limit.throttle_upper = true;
+            //fprintf(stderr,"Limit throttle 1\r\n");
         }
     }else if(thr_adj < 0){
         // decrease throttle as close as possible to requested throttle
@@ -310,6 +317,7 @@ void AP_MotorsMatrix::output_armed_stabilizing()
         if (thr_adj > thr_adj_max) {
             thr_adj = thr_adj_max;
             limit.throttle_upper = true;
+           // fprintf(stderr,"Limit throttle 2\r\n");
         }
         if (thr_adj < thr_adj_min) {
             thr_adj = thr_adj_min;
@@ -326,12 +334,14 @@ void AP_MotorsMatrix::output_armed_stabilizing()
         // we haven't even been able to apply full roll, pitch and minimal yaw without scaling
         limit.roll_pitch = true;
         limit.yaw = true;
+        //fprintf(stderr,"Limit roll/pitch 1\r\n");
     }else if((rpy_high+out_best_thr_pwm)+thr_adj > out_max_pwm){
         // protect against divide by zero
         if (rpy_high != 0) {
             rpy_scale = (float)(out_max_pwm-thr_adj-out_best_thr_pwm)/rpy_high;
         }
         // we haven't even been able to apply full roll, pitch and minimal yaw without scaling
+        //fprintf(stderr,"Limit roll/pitch 2\r\n");
         limit.roll_pitch = true;
         limit.yaw = true;
     }
@@ -363,6 +373,7 @@ void AP_MotorsMatrix::output_armed_stabilizing()
     for( i=0; i<AP_MOTORS_MAX_NUM_MOTORS; i++ ) {
         if( motor_enabled[i] ) {
             hal.rcout->write(i, motor_out[i]);
+            //fprintf(stderr,"Motor output %d: %d\r\n",i,(int)(1000*motor_out[i]));
         }
     }
     hal.rcout->push();
