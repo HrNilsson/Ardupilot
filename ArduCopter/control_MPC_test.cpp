@@ -4,7 +4,7 @@
 //#include <AP_HAL/AP_HAL.h>
 //#include <AP_HAL/AP_HAL_Namespace.h>
 #include "AC_AttitudeControl_MPC.h"
-
+#include <AP_Math/AP_Math.h>
 
 
 
@@ -15,7 +15,7 @@ bool Copter::MPC_test_init(bool ignore_checks)
     // To-Do: make pos controller aware when it's active/inactive so it can always report the altitude error?
     pos_control.set_alt_target(0);
 
-    /*test_sequence[0] = {0,0};           // Starting position
+    test_sequence[0] = {0,0};           // Starting position
     test_sequence[1] = {3000,0};        // Roll right
     test_sequence[2] = {0,0};           // Hover
     test_sequence[3] = {-3000,0};       // Roll left
@@ -38,10 +38,8 @@ bool Copter::MPC_test_init(bool ignore_checks)
 
     // Register the advance test function to be called on a timer interrupt from the HAL
     hal.scheduler->register_timer_process(FUNCTOR_BIND_MEMBER(&Copter::advance_test, void));
-*/
 
     attitude_control_mpc.initMPC();
-
 
     // stabilize should never be made to fail
     return true;
@@ -72,6 +70,7 @@ void Copter::MPC_test_run()
     // convert pilot input to lean angles
     // To-Do: convert get_pilot_desired_lean_angles to return angles as floats
     get_pilot_desired_lean_angles(channel_roll->control_in, channel_pitch->control_in, target_roll, target_pitch, aparm.angle_max);
+    //Convert targets from centi degrees to radians:
 
     // get pilot's desired yaw rate
     //target_yaw_rate = get_pilot_desired_yaw_rate(channel_yaw->control_in);
@@ -81,7 +80,11 @@ void Copter::MPC_test_run()
 
     // call attitude controller
     attitude_control_mpc.updateState();
-    attitude_control_mpc.updateMatrices(target_roll, target_pitch, target_yaw_rate);
+
+    //if (test_iterator > 16)
+    	attitude_control_mpc.updateMatrices(CentiDegreesToRadians(target_roll), CentiDegreesToRadians(target_pitch), target_yaw_rate);
+    //else
+    //	attitude_control_mpc.updateMatrices(CentiDegreesToRadians(test_sequence[test_iterator].targetRoll), CentiDegreesToRadians(test_sequence[test_iterator].targetPitch), target_yaw_rate);
     attitude_control_mpc.solve();
     attitude_control_mpc.outputToMotor();
 

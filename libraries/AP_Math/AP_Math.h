@@ -42,6 +42,7 @@
 #define RAD_TO_DEG_DOUBLE 57.29577951308232286464772187173366546630859375               // equals to (180.0 / M_PI)
 
 #define RadiansToCentiDegrees(x) ((x) * 5729.5779513082320876798154814105f)
+#define CentiDegreesToRadians(x) ((x) * 0.00017453292519943295769236907684886f)
 
 // acceleration due to gravity in m/s/s
 #define GRAVITY_MSS 9.80665f

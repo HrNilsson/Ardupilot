@@ -1,6 +1,5 @@
 #include "MMath.h"
-
-#pragma GCC optimize("O3")
+//#pragma GCC optimize("O3")
 
 
 
@@ -31,6 +30,7 @@ void Msubtract(double **A, double **B, size_t r, size_t c, double **res)
 void Mmultiply(double **A, double **B, size_t rA, size_t cA, size_t rB, size_t cB, double **res)
 {
     for(int i=0; i<(int)rA; ++i) // For every row in the lhs matrix
+    {
 		for (int j = 0; j < (int)cB; ++j) // For every column in the rhs matrix
 		{
 			res[i][j] = 0;
@@ -39,6 +39,7 @@ void Mmultiply(double **A, double **B, size_t rA, size_t cA, size_t rB, size_t c
 				res[i][j] += A[i][k] * B[k][j];
 			}
 		}
+    }
 }
 
 void MmultiplyScalar(double **A, size_t r, size_t c, double s, double **res)

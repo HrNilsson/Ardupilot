@@ -49,7 +49,7 @@ bool Copter::PID_test_init(bool ignore_checks)
 // should be called at 100hz or more
 void Copter::PID_test_run()
 {
-    //float target_roll, target_pitch;
+    float target_roll, target_pitch;
     float target_yaw_rate = 0;
     int16_t pilot_throttle_scaled;
 
@@ -68,7 +68,7 @@ void Copter::PID_test_run()
 
     // convert pilot input to lean angles
     // To-Do: convert get_pilot_desired_lean_angles to return angles as floats
-    //get_pilot_desired_lean_angles(channel_roll->control_in, channel_pitch->control_in, target_roll, target_pitch, aparm.angle_max);
+    get_pilot_desired_lean_angles(channel_roll->control_in, channel_pitch->control_in, target_roll, target_pitch, aparm.angle_max);
 
     // get pilot's desired yaw rate
     //target_yaw_rate = get_pilot_desired_yaw_rate(channel_yaw->control_in);
@@ -77,8 +77,10 @@ void Copter::PID_test_run()
     pilot_throttle_scaled = get_pilot_desired_throttle(channel_throttle->control_in);
 
     // call attitude controller
-    attitude_control.angle_ef_roll_pitch_rate_ef_yaw_smooth(test_sequence[test_iterator].targetRoll, test_sequence[test_iterator].targetPitch, target_yaw_rate, get_smoothing_gain());
-
+    if (test_iterator > 16)
+    	attitude_control.angle_ef_roll_pitch_rate_ef_yaw_smooth(target_roll, target_pitch, target_yaw_rate, get_smoothing_gain());
+    else
+    	attitude_control.angle_ef_roll_pitch_rate_ef_yaw_smooth(test_sequence[test_iterator].targetRoll, test_sequence[test_iterator].targetPitch, target_yaw_rate, get_smoothing_gain());
     // body-frame rate controller is run directly from 100hz loop
 
     // output pilot's throttle
@@ -90,15 +92,15 @@ void Copter::advance_test() // This function is called with a frequency of 1 kHz
 {
     time_passed ++;
 
-    if (time_passed < 1000) // Counts up to 1 second
+    if (time_passed < 2000) // Counts up to 1 second
     {
         return;
     }
-    else if (time_passed >= 1000) // Every second, the test iterator is incremented, advancing the test
+    else if (time_passed >= 2000) // Every second, the test iterator is incremented, advancing the test
     {
         time_passed = 0;
 
-        if (test_iterator < 16) // When the iterator reaches 16, the test is complete
+        if (test_iterator <= 16) // When the iterator reaches 16, the test is complete
             test_iterator ++;
         else
             return;

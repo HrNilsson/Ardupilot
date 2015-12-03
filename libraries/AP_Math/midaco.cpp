@@ -331,10 +331,25 @@ void midaco_init()
 
     /*  STEP 1.D: Define values for constant'K'  */
     /*  ***********************************  */
+        /*
+		 * Wy = 10
+		 * Wu = 0.01
+		 * I: Theoretical without dynamics
+		 */
         g_K[0] = 101.65;
         g_K[1] = 10.094;
         g_K[2] = 311.98;
 
+        /*
+        g_K[0] = 2.0471;
+		g_K[1] = 1.2060;
+		g_K[2] = 2.4551;
+		*/
+		/*
+        g_K[0] = 0.40271;
+		g_K[1] = 0.3186;
+		g_K[2] = 0.44351;
+		 */
         g_maxeval = 20;     /* Maximum number of function evaluation (e.g. 1000000) */
         g_maxtime = 1;  /* Maximum time limit in Seconds (e.g. 1 Day = 60*60*24) */
 
