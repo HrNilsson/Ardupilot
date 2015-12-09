@@ -336,10 +336,14 @@ void midaco_init()
 		 * Wu = 0.01
 		 * I: Theoretical without dynamics
 		 */
+		g_K[0] = 0.029737154305400;
+		g_K[1] = 0.025696954104829;
+		g_K[2] = 0.031696845101515;
+        /*
         g_K[0] = 101.65;
         g_K[1] = 10.094;
         g_K[2] = 311.98;
-
+        */
         /*
         g_K[0] = 2.0471;
 		g_K[1] = 1.2060;
@@ -350,7 +354,7 @@ void midaco_init()
 		g_K[1] = 0.3186;
 		g_K[2] = 0.44351;
 		 */
-        g_maxeval = 20;     /* Maximum number of function evaluation (e.g. 1000000) */
+        g_maxeval = 70;     /* Maximum number of function evaluation (e.g. 1000000) */
         g_maxtime = 1;  /* Maximum time limit in Seconds (e.g. 1 Day = 60*60*24) */
 
         g_param[0] =  0.0;   /*  ACCURACY      (default value is 0.001)      */
@@ -379,6 +383,18 @@ double getgx3()
     return g_x[2];
 }
 
+double getgK1()
+{
+	return g_K[0];
+}
+double getgK2()
+{
+	return g_K[1];
+}
+double getgK3()
+{
+	return g_K[2];
+}
 
 void optimize(double *f)
 {

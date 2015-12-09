@@ -531,6 +531,8 @@ private:
 
    uint8_t test_iterator;
    uint16_t time_passed;
+   uint8_t sequence_iterator;
+   uint16_t time_sequence[16];// = {2400, 4900, 7200, 9700, 12200, 14500, 17000, 19400, 21900, 24200, 26700, 29000, 31600, 33900, 36400};
 
 #if FRAME_CONFIG == HELI_FRAME
     // Mode filter to reject RC Input glitches.  Filter size is 5, and it draws the 4th element, so it can reject 3 low glitches,

@@ -214,6 +214,9 @@ double getgx1();
 double getgx2();
 double getgx3();
 
+double getgK1();
+double getgK2();
+double getgK3();
 }
 //using namespace Midaco;
 

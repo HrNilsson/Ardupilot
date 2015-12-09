@@ -5,6 +5,7 @@
 //#include <AP_HAL/AP_HAL_Namespace.h>
 #include "AC_AttitudeControl_MPC.h"
 #include <AP_Math/AP_Math.h>
+//#include "stdio.h"
 
 
 
@@ -37,7 +38,7 @@ bool Copter::MPC_test_init(bool ignore_checks)
     test_iterator = 0;
 
     // Register the advance test function to be called on a timer interrupt from the HAL
-    hal.scheduler->register_timer_process(FUNCTOR_BIND_MEMBER(&Copter::advance_test, void));
+    //hal.scheduler->register_timer_process(FUNCTOR_BIND_MEMBER(&Copter::advance_test, void));
 
     attitude_control_mpc.initMPC();
 
@@ -81,11 +82,19 @@ void Copter::MPC_test_run()
     // call attitude controller
     attitude_control_mpc.updateState();
 
-    //if (test_iterator > 16)
+    if (test_iterator > 16)
+    	//uint32_t start = hal.scheduler->micros();
     	attitude_control_mpc.updateMatrices(CentiDegreesToRadians(target_roll), CentiDegreesToRadians(target_pitch), target_yaw_rate);
-    //else
-    //	attitude_control_mpc.updateMatrices(CentiDegreesToRadians(test_sequence[test_iterator].targetRoll), CentiDegreesToRadians(test_sequence[test_iterator].targetPitch), target_yaw_rate);
+        //uint32_t end = hal.scheduler->micros();
+       // fprintf(stderr,"Matrices: %d micros\r\n",end-start);
+    else
+    	attitude_control_mpc.updateMatrices(CentiDegreesToRadians(test_sequence[test_iterator].targetRoll), CentiDegreesToRadians(test_sequence[test_iterator].targetPitch), target_yaw_rate);
+
+    //start = hal.scheduler->micros();
     attitude_control_mpc.solve();
+    //end = hal.scheduler->micros();
+	//fprintf(stderr,"Solver: %d micros\r\n",end-start);
+
     attitude_control_mpc.outputToMotor();
 
     // body-frame rate controller is run directly from 100hz loop

@@ -99,69 +99,69 @@
   
  */
 // 400 Hz
-//const AP_Scheduler::Task Copter::scheduler_tasks[] = {
-//    SCHED_TASK(rc_loop,                4,    130),
-//    SCHED_TASK(throttle_loop,          8,     75),
-//    SCHED_TASK(update_GPS,             8,    200),
-//#if OPTFLOW == ENABLED
-//    SCHED_TASK(update_optical_flow,    2,    160),
-//#endif
-//    SCHED_TASK(update_batt_compass,   40,    120),
-//    SCHED_TASK(read_aux_switches,     40,     50),
-//    SCHED_TASK(arm_motors_check,      40,     50),
-//    SCHED_TASK(auto_trim,             40,     75),
-//    SCHED_TASK(update_altitude,       40,    140),
-//    SCHED_TASK(run_nav_updates,        8,    100),
-//    SCHED_TASK(update_thr_average,     4,     90),
-//    SCHED_TASK(three_hz_loop,        133,     75),
-//    SCHED_TASK(compass_accumulate,     4,    100),
-//    SCHED_TASK(barometer_accumulate,   8,     90),
-//#if PRECISION_LANDING == ENABLED
-//    SCHED_TASK(update_precland,        8,     50),
-//#endif
-//#if FRAME_CONFIG == HELI_FRAME
-//    SCHED_TASK(check_dynamic_flight,   8,     75),
-//#endif
-//    SCHED_TASK(update_notify,          8,     90),
-//    SCHED_TASK(one_hz_loop,          400,    100),
-//    SCHED_TASK(ekf_check,             40,     75),
-//    SCHED_TASK(landinggear_update,    40,     75),
-//    SCHED_TASK(lost_vehicle_check,    40,     50),
-//    SCHED_TASK(gcs_check_input,        1,    180),
-//    SCHED_TASK(gcs_send_heartbeat,   400,    110),
-//    SCHED_TASK(gcs_send_deferred,      8,    550),
-//    SCHED_TASK(gcs_data_stream_send,   8,    550),
-//    SCHED_TASK(update_mount,           8,     75),
-//    SCHED_TASK(ten_hz_logging_loop,   40,    350),
-//    SCHED_TASK(fifty_hz_logging_loop,  8,    110),
-//    SCHED_TASK(full_rate_logging_loop, 1,    100),
-//    SCHED_TASK(dataflash_periodic,     1,    300),
-//    SCHED_TASK(perf_update,         4000,     75),
-//    SCHED_TASK(read_receiver_rssi,    40,     75),
-//    SCHED_TASK(rpm_update,            40,    200),
-//    SCHED_TASK(compass_cal_update,    4,    100),
-//#if FRSKY_TELEM_ENABLED == ENABLED
-//    SCHED_TASK(frsky_telemetry_send,  80,     75),
-//#endif
-//#if EPM_ENABLED == ENABLED
-//    SCHED_TASK(epm_update,            40,     75),
-//#endif
-//#ifdef USERHOOK_FASTLOOP
-//    SCHED_TASK(userhook_FastLoop,      4,     75),
-//#endif
-//#ifdef USERHOOK_50HZLOOP
-//    SCHED_TASK(userhook_50Hz,          8,     75),
-//#endif
-//#ifdef USERHOOK_MEDIUMLOOP
-//    SCHED_TASK(userhook_MediumLoop,   40,     75),
-//#endif
-//#ifdef USERHOOK_SLOWLOOP
-//    SCHED_TASK(userhook_SlowLoop,     120,    75),
-//#endif
-//#ifdef USERHOOK_SUPERSLOWLOOP
-//    SCHED_TASK(userhook_SuperSlowLoop, 400,   75),
-//#endif
-//};
+/*const AP_Scheduler::Task Copter::scheduler_tasks[] = {
+    SCHED_TASK(rc_loop,                4,    130),
+    SCHED_TASK(throttle_loop,          8,     75),
+    SCHED_TASK(update_GPS,             8,    200),
+#if OPTFLOW == ENABLED
+    SCHED_TASK(update_optical_flow,    2,    160),
+#endif
+    SCHED_TASK(update_batt_compass,   40,    120),
+    SCHED_TASK(read_aux_switches,     40,     50),
+    SCHED_TASK(arm_motors_check,      40,     50),
+    SCHED_TASK(auto_trim,             40,     75),
+    SCHED_TASK(update_altitude,       40,    140),
+    SCHED_TASK(run_nav_updates,        8,    100),
+    SCHED_TASK(update_thr_average,     4,     90),
+    SCHED_TASK(three_hz_loop,        133,     75),
+    SCHED_TASK(compass_accumulate,     4,    100),
+    SCHED_TASK(barometer_accumulate,   8,     90),
+#if PRECISION_LANDING == ENABLED
+    SCHED_TASK(update_precland,        8,     50),
+#endif
+#if FRAME_CONFIG == HELI_FRAME
+    SCHED_TASK(check_dynamic_flight,   8,     75),
+#endif
+    SCHED_TASK(update_notify,          8,     90),
+    SCHED_TASK(one_hz_loop,          400,    100),
+    SCHED_TASK(ekf_check,             40,     75),
+    SCHED_TASK(landinggear_update,    40,     75),
+    SCHED_TASK(lost_vehicle_check,    40,     50),
+    SCHED_TASK(gcs_check_input,        1,    180),
+    SCHED_TASK(gcs_send_heartbeat,   400,    110),
+    SCHED_TASK(gcs_send_deferred,      8,    550),
+    SCHED_TASK(gcs_data_stream_send,   8,    550),
+    SCHED_TASK(update_mount,           8,     75),
+    SCHED_TASK(ten_hz_logging_loop,   40,    350),
+    SCHED_TASK(fifty_hz_logging_loop,  8,    110),
+    SCHED_TASK(full_rate_logging_loop, 1,    100),
+    SCHED_TASK(dataflash_periodic,     1,    300),
+    SCHED_TASK(perf_update,         4000,     75),
+    SCHED_TASK(read_receiver_rssi,    40,     75),
+    SCHED_TASK(rpm_update,            40,    200),
+    SCHED_TASK(compass_cal_update,    4,    100),
+#if FRSKY_TELEM_ENABLED == ENABLED
+    SCHED_TASK(frsky_telemetry_send,  80,     75),
+#endif
+#if EPM_ENABLED == ENABLED
+    SCHED_TASK(epm_update,            40,     75),
+#endif
+#ifdef USERHOOK_FASTLOOP
+    SCHED_TASK(userhook_FastLoop,      4,     75),
+#endif
+#ifdef USERHOOK_50HZLOOP
+    SCHED_TASK(userhook_50Hz,          8,     75),
+#endif
+#ifdef USERHOOK_MEDIUMLOOP
+    SCHED_TASK(userhook_MediumLoop,   40,     75),
+#endif
+#ifdef USERHOOK_SLOWLOOP
+    SCHED_TASK(userhook_SlowLoop,     120,    75),
+#endif
+#ifdef USERHOOK_SUPERSLOWLOOP
+    SCHED_TASK(userhook_SuperSlowLoop, 400,   75),
+#endif
+};*/
 
 // 100 Hz
 const AP_Scheduler::Task Copter::scheduler_tasks[] = {

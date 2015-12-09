@@ -3,7 +3,6 @@
 #include "Copter.h"
 #include <AP_HAL/AP_HAL.h>
 #include <AP_HAL/AP_HAL_Namespace.h>
-//#include "Scheduler.h"
 
 /*
  * control_stabilize.pde - init and run calls for stabilize flight mode
@@ -34,12 +33,67 @@ bool Copter::PID_test_init(bool ignore_checks)
     test_sequence[15] = {-3000,-3000};  // Roll left, nose down
     test_sequence[16] = {0,0};          // Hover
 
+    /* 1kHz
+    time_sequence[0] = 2400;
+    time_sequence[1] = 4900;
+    time_sequence[2] = 7200;
+    time_sequence[3] = 9700;
+    time_sequence[4] = 12200;
+    time_sequence[5] = 14500;
+    time_sequence[6] = 17000;
+    time_sequence[7] = 19400;
+    time_sequence[8] = 21900;
+    time_sequence[9] = 24200;
+    time_sequence[10] = 26700;
+    time_sequence[11] = 29000;
+    time_sequence[12] = 31600;
+    time_sequence[13] = 33900;
+    time_sequence[14] = 36400;
+	*/
+
+	#if MAIN_LOOP_RATE == 400
+    time_sequence[0] = 0;
+	time_sequence[1] = 960;
+	time_sequence[2] = 1960;
+	time_sequence[3] = 2880;
+	time_sequence[4] = 3880;
+	time_sequence[5] = 4880;
+	time_sequence[6] = 5800;
+	time_sequence[7] = 6800;
+	time_sequence[8] = 7760;
+	time_sequence[9] = 8760;
+	time_sequence[10] = 9680;
+	time_sequence[11] = 10680;
+	time_sequence[12] = 11600;
+	time_sequence[13] = 12640;
+	time_sequence[14] = 13560;
+	time_sequence[15] = 14560;
+	#elif MAIN_LOOP_RATE == 100
+	time_sequence[0] = 0;
+	time_sequence[1] = 240;
+	time_sequence[2] = 490;
+	time_sequence[3] = 720;
+	time_sequence[4] = 970;
+	time_sequence[5] = 1220;
+	time_sequence[6] = 1420;
+	time_sequence[7] = 1700;
+	time_sequence[8] = 1940;
+	time_sequence[9] = 2190;
+	time_sequence[10] = 2420;
+	time_sequence[11] = 2670;
+	time_sequence[12] = 2900;
+	time_sequence[13] = 3160;
+	time_sequence[14] = 3390;
+	time_sequence[15] = 3640;
+	#endif
+
     // Start the test at the starting position
     test_iterator = 0;
+    sequence_iterator = 0;
+    time_passed = 0;
 
     // Register the advance test function to be called on a timer interrupt from the HAL
-    hal.scheduler->register_timer_process(FUNCTOR_BIND_MEMBER(&Copter::advance_test, void));
-    //hal.scheduler->register_timer_process(FUNCTOR_BIND_MEMBER(&AP_Baro_MS56XX::_timer, void));
+    //hal.scheduler->register_timer_process(FUNCTOR_BIND_MEMBER(&Copter::advance_test, void));
 
     // stabilize should never be made to fail
     return true;
@@ -85,25 +139,27 @@ void Copter::PID_test_run()
 
     // output pilot's throttle
     attitude_control.set_throttle_out(pilot_throttle_scaled, true, g.throttle_filt);
+
+    advance_test();
 }
 
-// CHANGE NUMBERS FOR MPC
+// 400 Hz implementation
 void Copter::advance_test() // This function is called with a frequency of 1 kHz
 {
     time_passed ++;
 
-    if (time_passed < 2000) // Counts up to 1 second
+    if (time_passed < time_sequence[sequence_iterator])
     {
         return;
     }
-    else if (time_passed >= 2000) // Every second, the test iterator is incremented, advancing the test
+    else if (time_passed >= time_sequence[sequence_iterator])
     {
-        time_passed = 0;
+        //time_passed = 0;
+    	if (sequence_iterator <= 14)
+    		sequence_iterator ++;
 
         if (test_iterator <= 16) // When the iterator reaches 16, the test is complete
             test_iterator ++;
-        else
-            return;
     }
 
 }
